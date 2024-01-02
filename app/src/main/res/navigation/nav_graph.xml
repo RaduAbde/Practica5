@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/ListaFragment">
+
+    <fragment
+        android:id="@+id/ListaFragment"
+        android:name="ui.ListaFragment"
+        android:label="@string/lista_fragment_label"
+        tools:layout="@layout/fragment_lista">
+
+        <action
+            android:id="@+id/action_editar"
+            app:destination="@id/TareaFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/TareaFragment"
+        android:name="ui.TareaFragment"
+        android:label="@string/tarea_fragment_label"
+        tools:layout="@layout/fragment_tarea">
+
+        <action
+            android:id="@+id/action_editar11"
+            app:destination="@id/ListaFragment" />
+        <argument
+            android:name="tarea"
+            app:argType="model.Tarea"
+            app:nullable="true" />
+    </fragment>
+</navigation>
