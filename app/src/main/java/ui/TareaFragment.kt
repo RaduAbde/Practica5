@@ -13,11 +13,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 import model.Tarea
 import model.viewmodel.AppViewModel
 import net.iessochoa.radwaneabdessamie.practica5.R
 import net.iessochoa.radwaneabdessamie.practica5.databinding.FragmentTareaBinding
+import ui.MainActivity.Companion.PREF_NOMBRE
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -34,6 +36,16 @@ class TareaFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private fun iniciaTecnico(){
+        //recuperamos las preferencias
+        val sharedPreferences =
+
+            PreferenceManager.getDefaultSharedPreferences(requireContext())
+        //recuperamos el nombre del usuario
+        val tecnico = sharedPreferences.getString(MainActivity.PREF_NOMBRE, "")
+        //lo asignamos
+        binding.etTecnico.setText(tecnico)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,10 +67,12 @@ class TareaFragment : Fragment() {
         iniciaSbHoras()
 
         //si es nueva tarea o es una edicion
-        if (esNuevo)//nueva tarea
+        if (esNuevo){//nueva tarea
         //cambiamos el título de la ventana
             (requireActivity() as AppCompatActivity).supportActionBar?.title =
                 getString(R.string.nueva_tarea)
+                iniciaTecnico()
+        }
         else
             iniciaTarea(args.tarea!!)
 
