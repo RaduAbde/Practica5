@@ -3,8 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="net.iessochoa.radwaneabdessamie.practica5.ui.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_prueba"
         android:orderInCategory="100"
+        android:title="Prueba" />
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="101"
         android:title="@string/action_settings"
         app:showAsAction="never" />
 </menu>

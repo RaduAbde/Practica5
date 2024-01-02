@@ -8,6 +8,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import net.iessochoa.radwaneabdessamie.practica5.R
 import net.iessochoa.radwaneabdessamie.practica5.databinding.ActivityMainBinding
 
@@ -35,12 +36,18 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
+    fun actionPrueba():Boolean{
+        Toast.makeText(this,"Prueba de menú",Toast.LENGTH_SHORT).show()
+        return true
+    }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
+            R.id.action_prueba -> actionPrueba()
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
