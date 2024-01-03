@@ -69,9 +69,8 @@ class TareaFragment : Fragment() {
         //si es nueva tarea o es una edicion
         if (esNuevo){//nueva tarea
         //cambiamos el título de la ventana
-            (requireActivity() as AppCompatActivity).supportActionBar?.title =
-                getString(R.string.nueva_tarea)
-                iniciaTecnico()
+            (requireActivity() as AppCompatActivity).supportActionBar?.title = getString(R.string.nueva_tarea)
+            iniciaTecnico()
         }
         else
             iniciaTarea(args.tarea!!)
@@ -235,7 +234,12 @@ class TareaFragment : Fragment() {
                 override fun onItemSelected(p0: AdapterView<*>?, v: View?, posicion: Int, id: Long) {
                     //el array son 3 elementos y "alta" ocupa la tercera posición
                     if(posicion==2){
-                        binding.clytTarea.setBackgroundColor(requireContext().getColor(R.color.prioridad_alta))
+                        //Cambiamos el color al seleccionado por el usuario
+                        val colorPorDefecto=resources.getStringArray(R.array.color_values)[0]
+                        val color= PreferenceManager.getDefaultSharedPreferences(requireContext()).getString(MainActivity.PREF_COLOR_PRIORIDAD, colorPorDefecto)
+
+                        binding.clytTarea.setBackgroundColor(Color.parseColor(color))
+                        //binding.clytTarea.setBackgroundColor(requireContext().getColor(R.color.prioridad_alta))
                     }else{//si no es prioridad alta quitamos el color
                         binding.clytTarea.setBackgroundColor(Color.TRANSPARENT)
                     }

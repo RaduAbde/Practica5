@@ -11,12 +11,18 @@ import net.iessochoa.radwaneabdessamie.practica5.databinding.ItemTareaBinding
 class TareaAdapter () :RecyclerView.Adapter<TareaAdapter.TareaViewHolder>(){
     var listaTareas: List<Tarea> ?= null
     var onTareaClickListener:OnTareaClickListener?=null
+    var colorPrioridadAlta :Int=Color.TRANSPARENT
 
     fun setLista(lista:List<Tarea>){
         listaTareas=lista
         //notifica al adaptador que hay cambios y tiene que redibujar el ReciclerView
         notifyDataSetChanged()
     }
+    fun actualizaRecyclerColor(color:Int){
+        colorPrioridadAlta=color
+        notifyDataSetChanged()
+    }
+
 
     inner class TareaViewHolder(val binding: ItemTareaBinding)
         : RecyclerView.ViewHolder(binding.root){
@@ -87,11 +93,20 @@ class TareaAdapter () :RecyclerView.Adapter<TareaAdapter.TareaViewHolder>(){
                     }
                 )
                 //cambiamos el color de fondo si la prioridad es alta
-                binding.cvItem.setBackgroundResource(
+                /*binding.cvItem.setBackgroundResource(
                     if (prioridad == 2)//prioridad alta
                         R.color.prioridad_alta
                     else
                         Color.TRANSPARENT
+                )*/
+                /**
+                 * cambiamos el color del item segun las preferencias del usuario
+                 */
+                binding.cvItem.setBackgroundColor(
+                    if (prioridad == 2)
+                        colorPrioridadAlta
+                    else
+                    Color.TRANSPARENT
                 )
             }
         }
