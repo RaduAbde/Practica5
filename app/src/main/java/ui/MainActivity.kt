@@ -1,5 +1,7 @@
 package ui
 
+import android.content.SharedPreferences
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -8,11 +10,13 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
+import androidx.preference.PreferenceManager
 import net.iessochoa.radwaneabdessamie.practica5.R
 import net.iessochoa.radwaneabdessamie.practica5.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() , OnSharedPreferenceChangeListener{
 
     companion object{
         val PREF_NOMBRE="nombre"
@@ -68,5 +72,29 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        PreferenceManager.getDefaultSharedPreferences(applicationContext).
+        registerOnSharedPreferenceChangeListener(this)
+    }
+    override fun onPause() {
+        super.onPause()
+
+        PreferenceManager.getDefaultSharedPreferences(applicationContext).
+        unregisterOnSharedPreferenceChangeListener(this)
+    }
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (key == MainActivity.PREF_AVISO_NUEVAS){
+            var envio = PreferenceManager.getDefaultSharedPreferences(applicationContext).getBoolean(MainActivity.PREF_AVISO_NUEVAS,false)
+            if (envio){
+                binding.icEnvio.visibility = View.VISIBLE
+            }else{
+                binding.icEnvio.visibility = View.INVISIBLE
+            }
+        }
+
     }
 }
