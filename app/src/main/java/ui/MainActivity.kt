@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() , OnSharedPreferenceChangeListener{
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
+        cambiarVisibilidad()
 
     }
 
@@ -74,26 +75,32 @@ class MainActivity : AppCompatActivity() , OnSharedPreferenceChangeListener{
                 || super.onSupportNavigateUp()
     }
 
+    //Funcion para cambiar la visibilidad del icono de enviar
+    private fun cambiarVisibilidad(){
+        var envio = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(MainActivity.PREF_AVISO_NUEVAS,false)
+        if (envio){
+            binding.icEnvio.visibility = View.VISIBLE
+        }else{
+            binding.icEnvio.visibility = View.INVISIBLE
+        }
+    }
+
     override fun onResume() {
         super.onResume()
 
-        PreferenceManager.getDefaultSharedPreferences(applicationContext).
+        PreferenceManager.getDefaultSharedPreferences(this).
         registerOnSharedPreferenceChangeListener(this)
     }
     override fun onPause() {
         super.onPause()
 
-        PreferenceManager.getDefaultSharedPreferences(applicationContext).
+        PreferenceManager.getDefaultSharedPreferences(this).
         unregisterOnSharedPreferenceChangeListener(this)
     }
+
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key == MainActivity.PREF_AVISO_NUEVAS){
-            var envio = PreferenceManager.getDefaultSharedPreferences(applicationContext).getBoolean(MainActivity.PREF_AVISO_NUEVAS,false)
-            if (envio){
-                binding.icEnvio.visibility = View.VISIBLE
-            }else{
-                binding.icEnvio.visibility = View.INVISIBLE
-            }
+            cambiarVisibilidad()
         }
 
     }
