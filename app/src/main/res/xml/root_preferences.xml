@@ -33,4 +33,14 @@
             app:icon="@android:drawable/ic_menu_send"
             app:key="aviso_nuevas" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="Acerca de...">
+        <Preference
+            app:key="buildVersion"
+            app:summary="Practica5 1.0.0"
+            app:title="Versión de compilación" />
+        <Preference
+            app:key="telefonoContacto"
+            app:summary=" 966 91 22 60"
+            app:title="Teléfono de contacto" />
+    </PreferenceCategory>
 </PreferenceScreen>
