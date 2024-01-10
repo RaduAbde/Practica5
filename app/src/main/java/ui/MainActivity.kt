@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() , OnSharedPreferenceChangeListener{
     }
 
 
-    //Funcion para cambiar la visibilidad del icono de enviar
+
     private fun cambiarVisibilidad(){
         var envio = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(MainActivity.PREF_AVISO_NUEVAS,false)
         if (envio){
