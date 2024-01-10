@@ -16,7 +16,8 @@ data class Tarea(
     val horasTrabajo:Int,
     val valoracionCliente:Float,
     val tecnico:String,
-    val descripcion:String
+    val descripcion:String,
+    val fotoUri: String
 
 ) : Parcelable {
 
@@ -28,7 +29,8 @@ data class Tarea(
                  horasTrabajo:Int,
                  valoracionCliente:Float,
                  tecnico:String,
-                 descripcion:String):this(null,categoria,prioridad,pagado,estado,horasTrabajo,valoracionCliente, tecnico, descripcion){}
+                 descripcion:String,
+                 fotoUri: String):this(null,categoria,prioridad,pagado,estado,horasTrabajo,valoracionCliente, tecnico, descripcion, fotoUri){}
 
     companion object {
         var idContador=1L//iniciamos contador de tareas

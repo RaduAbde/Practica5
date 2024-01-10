@@ -126,7 +126,7 @@ object ModelTempTareas {
                 tecnicos.random(),
                 "tarea $it realizada por el técnico \nLorem ipsum dolor sit amet, consectetur adipiscing elit. " +
                         "Mauris consequat ligula et vehicula mattis."
-            )
+            ,"")
             tareas.add(tarea)
         })
         //actualizamos el LiveData

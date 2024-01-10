@@ -44,11 +44,9 @@ class ListaFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeList
 
       fun obtenColorPreferencias():Int{
         //cogemos el primer color si no hay ninguno seleccionado
-        val colorPorDefecto=resources.getStringArray(R.array.color_values)[0]
+        val colorPorDefecto="#FFC107";
         //recuperamos el color actual
-        val color=
-            PreferenceManager.getDefaultSharedPreferences(requireContext()).getString(MainActivity.PREF_COLOR_PRIORIDAD,
-            colorPorDefecto)
+        val color= PreferenceManager.getDefaultSharedPreferences(requireContext()).getString(MainActivity.PREF_COLOR_PRIORIDAD, colorPorDefecto)
         return Color.parseColor(color)
     }
 

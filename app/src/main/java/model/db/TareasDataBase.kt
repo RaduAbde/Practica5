@@ -71,7 +71,7 @@ abstract class TareasDataBase : RoomDatabase() {
                             "consectetur adipiscing elit. Mauris consequat ligula et vehicula " +
                             "mattis. Etiam tristique ornare lacinia. Vestibulum lacus magna, " +
                             "dignissim et tempor id, convallis sed augue"
-                )
+                ,"")
                 tareasDao.addTarea(tarea)
             }
         }
