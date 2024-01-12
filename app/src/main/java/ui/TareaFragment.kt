@@ -1,7 +1,13 @@
 package ui
 
+import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +15,12 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -31,6 +42,21 @@ class TareaFragment : Fragment() {
     private val viewModel: AppViewModel by activityViewModels()
     //será una tarea nueva si no hay argumento
     val esNuevo by lazy { args.tarea==null }
+    var uriFoto=""
+
+    //petición de foto de la galería
+    private val solicitudFotoGallery = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            //uri de la foto elegida
+            val uri = result.data?.data
+            //mostramos la foto
+            binding.ivFoto.setImageURI(uri)
+            //guardamos la uri
+            uriFoto = uri.toString()
+        }
+    }
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -53,6 +79,7 @@ class TareaFragment : Fragment() {
     ): View? {
 
         _binding = FragmentTareaBinding.inflate(inflater, container, false)
+
         return binding.root
 
     }
@@ -76,6 +103,7 @@ class TareaFragment : Fragment() {
             iniciaTarea(args.tarea!!)
 
         iniciaFabGuardar()
+        iniciaIvBuscarFoto()
 
     }
 
@@ -98,6 +126,9 @@ class TareaFragment : Fragment() {
         binding.rbValoracion.rating = tarea.valoracionCliente
         binding.etTecnico.setText(tarea.tecnico)
         binding.etDescripcion.setText(tarea.descripcion)
+        if (!tarea.fotoUri.isNullOrEmpty())
+            binding.ivFoto.setImageURI(tarea.fotoUri.toUri())
+        uriFoto=tarea.fotoUri
         //cambiamos el título
         (requireActivity() as AppCompatActivity).supportActionBar?.title = "Tarea ${tarea.id}"
     }
@@ -129,10 +160,10 @@ class TareaFragment : Fragment() {
         //creamos la tarea: si es nueva, generamos un id, en otro caso le  asignamos su id
         val tarea = if(esNuevo)
 
-            Tarea(categoria,prioridad,pagado,estado,horas,valoracion,tecnico,descripcion,"")
+            Tarea(categoria,prioridad,pagado,estado,horas,valoracion,tecnico,descripcion,uriFoto)
         else
 
-            Tarea(args.tarea!!.id,categoria,prioridad,pagado,estado,horas,valoracion,tecnico,descripcion,"")
+            Tarea(args.tarea!!.id,categoria,prioridad,pagado,estado,horas,valoracion,tecnico,descripcion,uriFoto)
         //guardamos la tarea desde el viewmodel
         viewModel.addTarea(tarea)
         //salimos de editarFragment
@@ -217,6 +248,70 @@ class TareaFragment : Fragment() {
         }
     }
 
+
+
+
+
+    fun explicarPermisos(){
+        AlertDialog.Builder(activity as Context)
+            .setTitle(android.R.string.dialog_alert_title)
+            //TODO:recuerda: el texto en string.xml
+            .setMessage(getString(R.string.mensaje_permisos))
+        //acción si pulsa si
+        .setPositiveButton(android.R.string.ok) { v, _ ->
+            //Solicitamos los permisos de nuevo
+
+            solicitudPermisosLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            //cerramos el dialogo
+            v.dismiss()
+        }
+            //accion si pulsa no
+            .setNegativeButton(android.R.string.cancel) { v, _ ->
+                v.dismiss() }
+            .setCancelable(false)
+            .create()
+            .show()
+    }
+
+    private val solicitudPermisosLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()
+
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                // Permission has been granted.
+                buscarFoto()
+            } else {
+                // Permission request was denied.
+                explicarPermisos()
+            }
+        }
+
+    private fun buscarFoto() {
+        //Toast.makeText(requireContext(), "Buscando la foto...", Toast.LENGTH_SHORT).show()
+        val intent = Intent(Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        intent.type = "image/*"
+        solicitudFotoGallery.launch(intent)
+    }
+
+    fun iniciaIvBuscarFoto() {
+        binding.ivBuscarFoto.setOnClickListener() {
+            when {
+                //si tenemos los permisos
+                permisosAceptados() -> buscarFoto()
+                //no tenemos los permisos y los solicitamos
+                else ->
+                    solicitudPermisosLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
+        }
+    }
+
+    fun permisosAceptados() =
+        ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+
+
     private fun iniciaSpnPrioridad() {
         ArrayAdapter.createFromResource(
             //contexto suele ser la Activity
@@ -251,6 +346,9 @@ class TareaFragment : Fragment() {
 
             }
         }
+
+
+
     }
 
     override fun onDestroyView() {

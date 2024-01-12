@@ -94,6 +94,7 @@
     <string name="nombre">Nombre</string>
     <string name="entorno">Entorno</string>
     <string name="color_prioridad_alta">Color Prioridad Alta</string>
+    <string name="mensaje_permisos">Es necesario el permiso de \"Lectura de fichero\"  para mostrar una foto.\nDesea aceptar los permisos?</string>
 
     <string-array name="color_entries">
         <item>Naranja</item>
