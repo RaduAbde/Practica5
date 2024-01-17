@@ -104,13 +104,22 @@ class TareaFragment : Fragment() {
 
         iniciaFabGuardar()
         iniciaIvBuscarFoto()
+        iniciafotoClick()
 
+    }
+
+    private fun iniciafotoClick(){
+        binding.ivFoto.setOnClickListener{
+            val action = TareaFragmentDirections.actionTareaFragmentToFragmentFoto(uriFoto)
+            findNavController().navigate(action)
+        }
     }
 
     /**
      * Carga los valores de la tarea a editar
      */
     private fun iniciaTarea(tarea: Tarea) {
+
         binding.spnCategoria.setSelection(tarea.categoria)
         binding.spnPrioridad.setSelection(tarea.prioridad)
         binding.swPagado.isChecked = tarea.pagado
@@ -204,6 +213,7 @@ class TareaFragment : Fragment() {
     }
 
 
+
     private fun iniciaSwPagado() {
         binding.swPagado.setOnCheckedChangeListener { _, isChecked ->
             //cambiamos el icono si está marcado o no el switch
@@ -264,6 +274,7 @@ class TareaFragment : Fragment() {
             solicitudPermisosLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             //cerramos el dialogo
             v.dismiss()
+
         }
             //accion si pulsa no
             .setNegativeButton(android.R.string.cancel) { v, _ ->
