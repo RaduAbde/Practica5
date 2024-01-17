@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import net.iessochoa.radwaneabdessamie.practica5.R
@@ -28,10 +29,10 @@ class fragment_foto : Fragment() {
     }
 
     private fun ponerImagen(){
-        Toast.makeText(activity, args.uriFoto, Toast.LENGTH_SHORT).show()
+        /*Toast.makeText(activity, args.uriFoto, Toast.LENGTH_SHORT).show()
         val uri = Uri.parse(args.uriFoto)
-        println(args.uriFoto)
-        binding.ivFoto.setImageURI(uri);
+        println(args.uriFoto)*/
+        binding.ivFoto.setImageURI(args.uriFoto.toUri());
     }
 
 
@@ -41,7 +42,8 @@ class fragment_foto : Fragment() {
     ): View? {
         _binding = FragmentFotoBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_foto, container, false)
+        //return inflater.inflate(R.layout.fragment_foto, container, false)
+        return binding.root
     }
 
     override fun onDestroyView() {
