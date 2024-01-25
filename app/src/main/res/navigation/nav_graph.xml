@@ -36,6 +36,10 @@
             android:id="@+id/action_TareaFragment_to_fragment_foto"
             app:destination="@id/fragment_foto"
             app:launchSingleTop="true" />
+        <action
+            android:id="@+id/hacer_foto"
+            app:destination="@id/camaraFragment"
+            app:launchSingleTop="true" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -50,5 +54,15 @@
             android:name="uriFoto"
             app:argType="string"
             android:defaultValue="content://com.google.android.apps.photos.contentprovider/-1/1/content%3A%2F%2Fmedia%2Fexternal%2Fimages%2Fmedia%2F26/ORIGINAL/NONE/756941936" />
+    </fragment>
+    <fragment
+        android:id="@+id/camaraFragment"
+        android:name="ui.CamaraFragment"
+        android:label="fragment_camara"
+        tools:layout="@layout/fragment_camara" >
+        <action
+            android:id="@+id/action_camaraFragment_to_TareaFragment"
+            app:destination="@id/TareaFragment"
+            app:launchSingleTop="true" />
     </fragment>
 </navigation>

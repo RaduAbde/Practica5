@@ -213,12 +213,20 @@ class TareaFragment : Fragment() {
         iniciaFabGuardar()
         iniciaIvBuscarFoto()
         iniciafotoClick()
+        iniciaIconoCamaraClick()
 
     }
 
     private fun iniciafotoClick(){
         binding.ivFoto.setOnClickListener{
             val action = TareaFragmentDirections.actionTareaFragmentToFragmentFoto(uriFoto)
+            findNavController().navigate(action)
+        }
+    }
+
+    private fun iniciaIconoCamaraClick(){
+        binding.ivHacerFoto.setOnClickListener{
+            val action= TareaFragmentDirections.hacerFoto()
             findNavController().navigate(action)
         }
     }
